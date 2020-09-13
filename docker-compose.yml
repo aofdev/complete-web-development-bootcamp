@@ -1,0 +1,24 @@
+version: "3.5"
+services:
+  mongo:
+    container_name: complete-web-development-bootcamp-mongo
+    image: mongo:4.2
+    ports:
+      - 27020:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=cwdb101
+      - MONGO_INITDB_ROOT_PASSWORD=!cwdb101!
+      - MONGO_INITDB_DATABASE=books
+    networks:
+      - complete-web-development-bootcamp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "10"
+    restart: "always"
+
+networks:
+  complete-web-development-bootcamp:
+    driver: bridge
+    name: complete-web-development-bootcamp-local
