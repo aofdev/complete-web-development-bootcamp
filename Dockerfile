@@ -7,5 +7,4 @@ RUN pip install -r /home/complete-web-development-bootcamp-api/requirements.txt
 COPY api/ /home/complete-web-development-bootcamp-api
 WORKDIR /home/complete-web-development-bootcamp-api
 
-EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn main:app --host=0.0.0.0 --port=$PORT"]
