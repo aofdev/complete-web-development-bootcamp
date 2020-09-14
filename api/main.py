@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from library import Library, Book, NoBookError
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from payload import CreateBookIn, UpdateBookIn
 import uuid
 
 
@@ -59,12 +60,6 @@ def read_book(book_id: str, response: Response):
     }
 
 
-class CreateBookIn(BaseModel):
-    title: str
-    author: str
-    published_date: date
-
-
 @app.post("/books", status_code=status.HTTP_201_CREATED)
 def create_book(book: CreateBookIn):
     new_book = library.create_book(book)
@@ -72,12 +67,6 @@ def create_book(book: CreateBookIn):
         "message": "ok",
         "data": new_book
     }
-
-
-class UpdateBookIn(BaseModel):
-    title: Optional[str]
-    author: Optional[str]
-    published_date: Optional[date]
 
 
 @app.put("/books/{book_id}", status_code=status.HTTP_200_OK)
