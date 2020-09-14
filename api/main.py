@@ -4,11 +4,15 @@ from datetime import date
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
 from library import Library, Book, NoBookError
+from pymongo import MongoClient
+from bson.objectid import ObjectId
 import uuid
 
 
 app = FastAPI()
 library = Library()
+client = MongoClient("mongodb://root:root@localhost:27017")
+db = client.bootcamp
 
 
 @app.get("/")
@@ -18,18 +22,37 @@ def read_root():
 
 @app.get("/books")
 def read_books():
+    blogs_raw = [blog_raw for blog_raw in db.blogs.find()]
+
+    blogs = map(lambda br: {
+        "id": str(br["_id"]),
+        "title": br["title"],
+        "author": br["author"],
+        "published_date": br["published_date"].strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    }, blogs_raw)
+
     return {
         "message": "ok",
-        "data": library.get_all_books()
+        "data": list(blogs)
     }
 
 
 @app.get("/books/{book_id}", status_code=status.HTTP_200_OK)
-def read_book(book_id: int, response: Response):
-    book = library.get_book_with_id(book_id)
-    if book is None:
+def read_book(book_id: str, response: Response):
+    # book = library.get_book_with_id(book_id)
+
+    book_raw = db.blogs.find_one({"_id": ObjectId(book_id)})
+
+    if book_raw is None:
         response.status_code = 500
         return {"message": "book not found"}
+
+    book = {
+        "id": str(book_raw["_id"]),
+        "title": book_raw["title"],
+        "author": book_raw["author"],
+        "published_date": book_raw["published_date"].strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    }
     return {
         "message": "ok",
         "data": book
