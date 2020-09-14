@@ -6,8 +6,8 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 from library import Library, Book, NoBookError
-from payload import CreateBookIn, UpdateBookIn
-from blog import BlogRepository
+from payload import UpdateBookIn
+from blog import BlogRepository, Blog, BlogCreatePayload
 import uuid
 
 
@@ -41,12 +41,14 @@ def read_book(blog_id: str, response: Response):
     }
 
 
-@app.post("/books", status_code=status.HTTP_201_CREATED)
-def create_book(book: CreateBookIn):
-    new_book = library.create_book(book)
+@app.post("/blogs", status_code=status.HTTP_201_CREATED)
+def create_book(blog: BlogCreatePayload):
+    new_blog_id = blog_repo.create(blog)
     return {
         "message": "ok",
-        "data": new_book
+        "data": {
+            "blog_id": new_blog_id
+        }
     }
 
 

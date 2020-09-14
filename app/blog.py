@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 from pydantic import BaseModel
 from datetime import datetime
 from pymongo.collection import Collection
@@ -7,6 +7,15 @@ from bson.objectid import ObjectId
 
 class Blog(BaseModel):
     id: str
+    title: str
+    body: str
+    author: str
+    cover_image_url: str
+    created_date: datetime
+    last_edited_date: datetime
+
+
+class BlogCreatePayload(BaseModel):
     title: str
     body: str
     author: str
@@ -28,6 +37,11 @@ class BlogRepository():
     def find_by_id(self, id: str):
         blog_raw = self.collection.find_one({"_id": ObjectId(id)})
         return self.map_raw_to_blog(blog_raw)
+
+    def create(self, blogCreate: BlogCreatePayload):
+        insert_result = self.collection.insert_one(blogCreate.dict())
+        inserted_id = str(insert_result.inserted_id)
+        return inserted_id
 
     def map_raw_to_blog(self, blog_raw: Dict):
         return Blog(**{
