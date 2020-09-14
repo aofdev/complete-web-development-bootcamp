@@ -1,12 +1,13 @@
 from typing import Optional
 from datetime import date
-
 from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
-from library import Library, Book, NoBookError
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+
+from library import Library, Book, NoBookError
 from payload import CreateBookIn, UpdateBookIn
+from blog import BlogRepository
 import uuid
 
 
@@ -14,6 +15,7 @@ app = FastAPI()
 library = Library()
 client = MongoClient("mongodb://root:root@localhost:27017")
 db = client.bootcamp
+blog_repo = BlogRepository(db["blogs"])
 
 
 @app.get("/")
@@ -21,42 +23,21 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/books")
+@app.get("/blogs")
 def read_books():
-    blogs_raw = [blog_raw for blog_raw in db.blogs.find()]
-
-    blogs = map(lambda br: {
-        "id": str(br["_id"]),
-        "title": br["title"],
-        "author": br["author"],
-        "published_date": br["published_date"].strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    }, blogs_raw)
-
+    blogs = blog_repo.find_all()
     return {
         "message": "ok",
-        "data": list(blogs)
+        "data": blogs
     }
 
 
-@app.get("/books/{book_id}", status_code=status.HTTP_200_OK)
-def read_book(book_id: str, response: Response):
-    # book = library.get_book_with_id(book_id)
-
-    book_raw = db.blogs.find_one({"_id": ObjectId(book_id)})
-
-    if book_raw is None:
-        response.status_code = 500
-        return {"message": "book not found"}
-
-    book = {
-        "id": str(book_raw["_id"]),
-        "title": book_raw["title"],
-        "author": book_raw["author"],
-        "published_date": book_raw["published_date"].strftime("%d-%b-%Y (%H:%M:%S.%f)")
-    }
+@app.get("/blogs/{blog_id}", status_code=status.HTTP_200_OK)
+def read_book(blog_id: str, response: Response):
+    blog = blog_repo.find_by_id(blog_id)
     return {
         "message": "ok",
-        "data": book
+        "data": blog
     }
 
 
