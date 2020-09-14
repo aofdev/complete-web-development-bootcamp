@@ -14,8 +14,7 @@ import uuid
 app = FastAPI()
 library = Library()
 client = MongoClient("mongodb://root:root@localhost:27017")
-db = client.bootcamp
-blog_repo = BlogRepository(db["blogs"])
+blog_repo = BlogRepository(client["bootcamp"]["blogs"])
 
 
 @app.get("/")

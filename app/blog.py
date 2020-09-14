@@ -36,7 +36,8 @@ class BlogRepository():
 
     def find_by_id(self, id: str):
         blog_raw = self.collection.find_one({"_id": ObjectId(id)})
-        return self.map_raw_to_blog(blog_raw)
+        blog = self.map_raw_to_blog(blog_raw)
+        return blog
 
     def create(self, blogCreate: BlogCreatePayload):
         insert_result = self.collection.insert_one(blogCreate.dict())
