@@ -64,20 +64,29 @@ def update_book(blog_id: str, blog: BlogUpdatePayload, response: Response):
     except NoBookError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"book {blog_id} not found"
+            "message": f"blog {blog_id} not found"
+        }
+    except Exception as e:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": str(e),
         }
 
 
-@app.delete("/books/{book_id}")
-def delete_book(book_id: int, response: Response):
+@app.delete("/blogs/{blog_id}")
+def delete_book(blog_id: int, response: Response):
     try:
-        deleted_book = library.delete_book(book_id)
+        blog_repo.delete(blog_id)
         return {
             "message": "ok",
-            "data": deleted_book
         }
     except NoBookError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"book {book_id} not found"
+            "message": f"blog {blog_id} not found"
+        }
+    except Exception as e:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": str(e)
         }

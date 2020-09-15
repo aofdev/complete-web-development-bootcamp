@@ -59,6 +59,9 @@ class BlogRepository():
         updated_id = str(update_result.upserted_id)
         return updated_id
 
+    def delete(self, id: str):
+        self.collection.delete_one({"_id": ObjectId(id)})
+
     def map_raw_to_blog(self, blog_raw: Dict):
         return Blog(**{
             "id": str(blog_raw["_id"]),
