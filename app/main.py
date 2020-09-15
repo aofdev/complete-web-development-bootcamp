@@ -6,7 +6,6 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 from library import Library, Book, NoBookError
-from payload import UpdateBookIn
 from blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
 import uuid
 
