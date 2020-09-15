@@ -24,6 +24,15 @@ class BlogCreatePayload(BaseModel):
     last_edited_date: datetime
 
 
+class BlogUpdatePayload(BaseModel):
+    title: Optional[str]
+    body: Optional[str]
+    author: Optional[str]
+    cover_image_url: Optional[str]
+    created_date: Optional[datetime]
+    last_edited_date: Optional[datetime]
+
+
 class BlogRepository():
     def __init__(self, collection: Collection):
         self.collection = collection
@@ -43,6 +52,12 @@ class BlogRepository():
         insert_result = self.collection.insert_one(blogCreate.dict())
         inserted_id = str(insert_result.inserted_id)
         return inserted_id
+
+    def update(self, id: str, blogUpdate: BlogUpdatePayload):
+        update_result = self.collection.update_one(
+            {"_id": ObjectId(id)}, blogUpdate.dict(exclude_unset=True))
+        updated_id = str(update_result.upserted_id)
+        return updated_id
 
     def map_raw_to_blog(self, blog_raw: Dict):
         return Blog(**{

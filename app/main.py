@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 
 from library import Library, Book, NoBookError
 from payload import UpdateBookIn
-from blog import BlogRepository, Blog, BlogCreatePayload
+from blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
 import uuid
 
 
@@ -51,19 +51,20 @@ def create_book(blog: BlogCreatePayload):
     }
 
 
-@app.put("/books/{book_id}", status_code=status.HTTP_200_OK)
-def update_book(book_id: int, update_book_payload: UpdateBookIn, response: Response):
+@app.put("/blogs/{blog_id}", status_code=status.HTTP_200_OK)
+def update_book(blog_id: str, blog: BlogUpdatePayload, response: Response):
     try:
-        edited_book = library.update_book(book_id, Book(
-            id=book_id, **update_book_payload.dict()))
+        updated_blog_id = blog_repo.update(blog_id, blog)
         return {
             "message": "ok",
-            "data": edited_book
+            "data": {
+                "blog_id": blog_id
+            }
         }
     except NoBookError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"book {book_id} not found"
+            "message": f"book {blog_id} not found"
         }
 
 
