@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 
 from entities.blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
 from entities.book import Book
-from repositories.book import BookRepository
+from repositories.book import BookRepository, NoBookError
 
 
 app = FastAPI()
@@ -93,15 +93,20 @@ def read_books():
 @app.get("/books/{book_id}")
 def read_book(book_id: int, response: Response):
     try:
-        book = book_repo.find(id)
+        book = book_repo.find_by_id(book_id)
         return {
             "message": "ok",
             "data": [book]
         }
-    except Exception as e:
+    except NoBookError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"something went wrong {str(e)}"
+            "message": f"book with id {book_id} is not found"
+        }
+    except Exception:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": f"something went wrong"
         }
 
 
