@@ -8,7 +8,7 @@ class BookRepository():
         self.collection = collection
 
     def find_all(self):
-        books = [Book(**book_raw.dict())
+        books = [Book(**book_raw)
                  for book_raw in self.collection.find()]
         return books
 
