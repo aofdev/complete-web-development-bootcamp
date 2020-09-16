@@ -35,6 +35,7 @@ init           install the package to the active Python is site-packages
 start          Start app
 docker-start   Start docker-compose
 docker-stop    Stop docker-compose
+mockdata       mock data
 clean-pyc      remove Python file artifacts
 lint           check style with flake8
 ```
