@@ -22,5 +22,5 @@ class Book(BaseModel):
     short_description: Optional[str] = Field(..., alias='shortDescription')
     long_description: Optional[str] = Field(..., alias='longDescription')
     status: Optional[str]
-    authors: Optional[List][str]
-    categories: Optional[List][str]
+    authors: Optional[List[str]]
+    categories: Optional[List[str]]

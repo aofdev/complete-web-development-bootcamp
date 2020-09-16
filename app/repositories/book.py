@@ -1,6 +1,6 @@
 
 from pymongo.collection import Collection
-from app.entities.book import Book
+from entities.book import Book
 
 
 class BookRepository():

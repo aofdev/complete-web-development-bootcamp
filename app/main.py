@@ -6,9 +6,9 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 # from library import Library, Book, NoBookError
-from app.entities.blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
-from app.entities.book import Book
-from app.repositories.book import BookRepository
+from entities.blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
+from entities.book import Book
+from repositories.book import BookRepository
 
 
 app = FastAPI()
