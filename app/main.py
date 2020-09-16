@@ -121,7 +121,24 @@ def create_book(book: Book, response: Response):
                 "book_id": created_book_id
             }
         }
-    except Exception as e:
+    except Exception:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": "something went wrong"
+        }
+
+
+@app.put("/books/{book_id}")
+def update_book(book_id: str, book: Book, response: Response):
+    try:
+        updated_book_id = book_repo.update(book_id, book)
+        return {
+            "message": "ok",
+            "data": {
+                "book_id": updated_book_id
+            }
+        }
+    except Exception:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
             "message": "something went wrong"

@@ -23,15 +23,16 @@ class BookRepository():
         return book
 
     def create(self, book: Book):
-        inserted_result = self.collection.insert_one(book.dict())
+        inserted_result = self.collection.insert_one(
+            book.dict(exclude_unset=True))
         inserted_id = str(inserted_result.inserted_id)
         return inserted_id
 
-    def update(self, id: int, book: Book):
-        updated_result = self.collection.update_one(
-            {"_id": id}, book.dict(exclude_unset=True))
-        updated_id = updated_result.upserted_id
-        return updated_id
+    def update(self, id: str, book: Book):
+        self.collection.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": book.dict(exclude_unset=True)})
+        return id
 
     def delete(self, id: int):
         deleted_result = self.collection.delete_one({"_id": id})
