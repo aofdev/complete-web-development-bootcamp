@@ -5,8 +5,9 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-from entities.blog import BlogRepository, Blog, BlogCreatePayload, BlogUpdatePayload
+from entities.blog import Blog
 from entities.book import Book
+from repositories.blog import BlogRepository, BlogCreatePayload, BlogUpdatePayload
 from repositories.book import BookRepository, NoBookError
 
 
