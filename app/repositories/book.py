@@ -29,13 +29,17 @@ class BookRepository():
         return inserted_id
 
     def update(self, id: str, book: Book):
-        self.collection.update_one(
+        updated_result = self.collection.update_one(
             {"_id": ObjectId(id)},
             {"$set": book.dict(exclude_unset=True)})
+        if updated_result.modified_count == 0:
+            raise NoBookError
         return id
 
-    def delete(self, id: int):
-        deleted_result = self.collection.delete_one({"_id": id})
+    def delete(self, id: str):
+        deleted_result = self.collection.delete_one({"_id": ObjectId(id)})
+        if deleted_result.deleted_count == 0:
+            raise NoBookError
         return id
 
     def map_raw_to_book(self, book_raw: Dict):

@@ -138,6 +138,33 @@ def update_book(book_id: str, book: Book, response: Response):
                 "book_id": updated_book_id
             }
         }
+    except NoBookError:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": f"book with id {book_id} not found"
+        }
+    except Exception:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": "something went wrong"
+        }
+
+
+@app.delete("/books/{book_id}")
+def delete_book(book_id: str, response: Response):
+    try:
+        deleted_book_id = book_repo.delete(book_id)
+        return {
+            "message": "ok",
+            "data": {
+                "book_id": deleted_book_id
+            }
+        }
+    except NoBookError:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {
+            "message": f"book with id {book_id} not found"
+        }
     except Exception:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
