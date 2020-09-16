@@ -8,7 +8,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=cwdb101
       - MONGO_INITDB_ROOT_PASSWORD=!cwdb101!
-      - MONGO_INITDB_DATABASE=books
+      - MONGO_INITDB_DATABASE=bootcamp
     networks:
       - complete-web-development-bootcamp
     logging:

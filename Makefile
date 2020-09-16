@@ -36,6 +36,12 @@ docker-stop:
 	@ echo "> Stop development environment"
 	@ docker-compose down
 
+## mockdata: mock data
+mockdata:
+	@ echo "> Start mock data"
+	@ echo "> Import development database"
+	@ ./seed/import.sh
+
 ## clean-pyc: remove Python file artifacts
 clean-pyc:
 	@find . -name '*.pyc' -exec rm -f {} +
