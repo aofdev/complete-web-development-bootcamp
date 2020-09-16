@@ -107,7 +107,7 @@ def read_book(book_id: str, response: Response):
     except Exception:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"something went wrong"
+            "message": "something went wrong"
         }
 
 
@@ -124,5 +124,5 @@ def create_book(book: Book, response: Response):
     except Exception as e:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"something went wrong {str(e)}"
+            "message": "something went wrong"
         }

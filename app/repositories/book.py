@@ -24,7 +24,7 @@ class BookRepository():
 
     def create(self, book: Book):
         inserted_result = self.collection.insert_one(book.dict())
-        inserted_id = inserted_result.inserted_id
+        inserted_id = str(inserted_result.inserted_id)
         return inserted_id
 
     def update(self, id: int, book: Book):
