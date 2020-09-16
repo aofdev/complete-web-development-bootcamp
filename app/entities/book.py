@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    _id: Optional[int]
+    id: Optional[str]
     title: Optional[str]
     isbn: Optional[str]
     page_count: Optional[int]

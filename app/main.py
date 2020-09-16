@@ -92,7 +92,7 @@ def read_books():
 
 
 @app.get("/books/{book_id}")
-def read_book(book_id: int, response: Response):
+def read_book(book_id: str, response: Response):
     try:
         book = book_repo.find_by_id(book_id)
         return {
