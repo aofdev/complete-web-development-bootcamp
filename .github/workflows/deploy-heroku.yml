@@ -16,3 +16,4 @@ jobs:
           heroku_app_name: "cwdb-api"
           heroku_email: "aof.dev@gmail.com"
           usedocker: true
+          docker_build_args: MONGO_URI=${{secrets.MONGO_URI}}

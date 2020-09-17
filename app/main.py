@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Header, HTTPException, Depends, Response
 from pymongo import MongoClient
 
@@ -8,7 +9,15 @@ from routes.book import book_router
 
 
 app = FastAPI()
-client = MongoClient("mongodb://cwdb101:!cwdb101!@localhost:27020")
+
+# Local
+MONGO_URI = "mongodb://cwdb101:!cwdb101!@localhost:27020"
+
+# Get Config Production
+if 'PRODUCTION' in os.environ:
+    MONGO_URI = os.environ['PRODUCTION']
+
+client = MongoClient(MONGO_URI)
 book_repo = BookRepository(client["bootcamp"]["books"])
 
 
