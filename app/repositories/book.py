@@ -33,13 +33,13 @@ class BookRepository():
             {"_id": ObjectId(book_id)},
             {"$set": book.dict(exclude_unset=True)})
         if updated_result.modified_count == 0:
-            raise NoBookError
+            raise NoBookUpdateError
         return book_id
 
     def delete(self, book_id: str):
         deleted_result = self.collection.delete_one({"_id": ObjectId(book_id)})
         if deleted_result.deleted_count == 0:
-            raise NoBookError
+            raise NoBookDeleteError
         return book_id
 
     def map_raw_to_book(self, book_raw: Dict):
@@ -60,4 +60,14 @@ class BookRepository():
 
 class NoBookError(Exception):
     """Raised when the no book is found from db"""
+    pass
+
+
+class NoBookUpdateError(Exception):
+    """Raised when failed to update book in db"""
+    pass
+
+
+class NoBookDeleteError(Exception):
+    """Raised when failed to delete book in db"""
     pass

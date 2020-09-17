@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter, Response, status
-from repositories.book import BookRepository, NoBookError
+from repositories.book import BookRepository, NoBookError, NoBookUpdateError, NoBookDeleteError
 from entities.book import Book
 
 router = APIRouter()
@@ -70,10 +70,10 @@ def update_book(book_id: str, book: Book, response: Response):
                 "book_id": updated_book_id
             }
         }
-    except NoBookError:
+    except NoBookUpdateError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"book with id {book_id} not found"
+            "message": "No book is updated"
         }
     except Exception:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -92,10 +92,10 @@ def delete_book(book_id: str, response: Response):
                 "book_id": deleted_book_id
             }
         }
-    except NoBookError:
+    except NoBookDeleteError:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {
-            "message": f"book with id {book_id} not found"
+            "message": "No book is deleted"
         }
     except Exception:
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
