@@ -13,7 +13,7 @@ ifeq ($(wildcard ~/.pyenv/versions/complete-web-development-bootcamp),)
 	pyenv virtualenv 3.8.5 complete-web-development-bootcamp
 endif
 	@echo "Install python requirements"
-	~/.pyenv/versions/complete-web-development-bootcamp/bin/pip install -r api/requirements.txt
+	~/.pyenv/versions/complete-web-development-bootcamp/bin/pip install -r app/requirements.txt
 
 	@echo "Cleaning cache python file artifacts"
 	@make clean-pyc

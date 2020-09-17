@@ -4,12 +4,6 @@ from typing import Optional
 import uuid
 
 
-jia_obj = {
-    "name": "Suradid",
-    "last_name": "Chao"
-}
-
-
 class Book(BaseModel):
     id: Optional[int] = 0
     title: Optional[str] = None
