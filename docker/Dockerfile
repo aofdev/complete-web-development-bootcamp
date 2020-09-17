@@ -1,5 +1,8 @@
 FROM python:3.8.5
 
+ARG MONGO_URI=${MONGO_URI}
+ENV PRODUCTION=${MONGO_URI}
+
 RUN mkdir -p /home/complete-web-development-bootcamp-api
 COPY app/requirements.txt /home/complete-web-development-bootcamp-api/requirements.txt
 RUN pip install -r /home/complete-web-development-bootcamp-api/requirements.txt
