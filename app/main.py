@@ -1,9 +1,6 @@
-from typing import Optional
-from datetime import date
-from fastapi import FastAPI, Response, status
-from pydantic import BaseModel
+from fastapi import FastAPI, Header, HTTPException, Depends,  Response
 from pymongo import MongoClient
-from bson.objectid import ObjectId
+
 
 from entities.blog import Blog
 from entities.book import Book
@@ -24,14 +21,21 @@ def read_root():
     return {"message": "Welcome to Complete Web Developer Bootcamp 2020"}
 
 
+def get_token_header(x_token: str = Header(...)):
+    if x_token != "complete-web-developer-bootcamp-2020":
+        raise HTTPException(status_code=400, detail="X-Token header invalid")
+
+
 app.include_router(
     blog_router(blog_repo),
     prefix="/blogs",
-    tags=["blogs"]
+    tags=["blogs"],
+    dependencies=[Depends(get_token_header)],
 )
 
 app.include_router(
     book_router(book_repo),
     prefix="/books",
     tags=["books"],
+    dependencies=[Depends(get_token_header)]
 )
