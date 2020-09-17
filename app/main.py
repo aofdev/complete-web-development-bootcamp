@@ -9,6 +9,7 @@ from entities.blog import Blog
 from entities.book import Book
 from repositories.blog import BlogRepository, BlogCreatePayload, BlogUpdatePayload
 from repositories.book import BookRepository, NoBookError
+from routes.book import book_router
 
 
 app = FastAPI()
@@ -82,91 +83,8 @@ def delete_blog(blog_id: int, response: Response):
         }
 
 
-@app.get("/books")
-def read_books():
-    books = book_repo.find_all()
-    return {
-        "message": "ok",
-        "data": books
-    }
-
-
-@app.get("/books/{book_id}")
-def read_book(book_id: str, response: Response):
-    try:
-        book = book_repo.find_by_id(book_id)
-        return {
-            "message": "ok",
-            "data": [book]
-        }
-    except NoBookError:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": f"book with id {book_id} is not found"
-        }
-    except Exception:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": "something went wrong"
-        }
-
-
-@app.post("/books")
-def create_book(book: Book, response: Response):
-    try:
-        created_book_id = book_repo.create(book)
-        return {
-            "message": "ok",
-            "data": {
-                "book_id": created_book_id
-            }
-        }
-    except Exception:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": "something went wrong"
-        }
-
-
-@app.put("/books/{book_id}")
-def update_book(book_id: str, book: Book, response: Response):
-    try:
-        updated_book_id = book_repo.update(book_id, book)
-        return {
-            "message": "ok",
-            "data": {
-                "book_id": updated_book_id
-            }
-        }
-    except NoBookError:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": f"book with id {book_id} not found"
-        }
-    except Exception:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": "something went wrong"
-        }
-
-
-@app.delete("/books/{book_id}")
-def delete_book(book_id: str, response: Response):
-    try:
-        deleted_book_id = book_repo.delete(book_id)
-        return {
-            "message": "ok",
-            "data": {
-                "book_id": deleted_book_id
-            }
-        }
-    except NoBookError:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": f"book with id {book_id} not found"
-        }
-    except Exception:
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-            "message": "something went wrong"
-        }
+app.include_router(
+    book_router(book_repo),
+    prefix="/books",
+    tags=["books"],
+)
