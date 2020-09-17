@@ -21,8 +21,8 @@ def read_root():
     return {"message": "Welcome to Complete Web Developer Bootcamp 2020"}
 
 
-def get_token_header(x_token: str = Header(...)):
-    if x_token != "complete-web-developer-bootcamp-2020":
+def get_token_header(api_key: str = Header(...)):
+    if api_key != "complete-web-developer-bootcamp-2020":
         raise HTTPException(status_code=400, detail="X-Token header invalid")
 
 
