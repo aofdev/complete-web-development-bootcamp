@@ -42,7 +42,7 @@
 				"method": "GET",
 				"header": [
 					{
-						"key": "x-token",
+						"key": "api-key",
 						"value": "complete-web-developer-bootcamp-2020",
 						"type": "text"
 					}
