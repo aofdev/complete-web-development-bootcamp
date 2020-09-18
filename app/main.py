@@ -7,6 +7,9 @@ from entities.book import Book
 from repositories.book import BookRepository, NoBookError
 from routes.book import book_router
 
+from entities.movie import Movie
+from repositories.movie import MovieRepository, NoMovieError
+from routes.movie import movie_router
 
 app = FastAPI()
 
@@ -18,7 +21,8 @@ if 'PRODUCTION' in os.environ:
     MONGO_URI = os.environ['PRODUCTION']
 
 client = MongoClient(MONGO_URI)
-book_repo = BookRepository(client["bootcamp"]["books"])
+book_repo = BookRepository(collection=client["bootcamp"]["books"])
+movie_repo = MovieRepository(collection=client["bootcamp"]["movies"])
 
 
 @app.get("/")
@@ -36,5 +40,12 @@ app.include_router(
     book_router(book_repo),
     prefix="/books",
     tags=["books"],
+    dependencies=[Depends(get_token_header)]
+)
+
+app.include_router(
+    movie_router(movie_repo),
+    prefix="/movies",
+    tags=["movies"],
     dependencies=[Depends(get_token_header)]
 )
