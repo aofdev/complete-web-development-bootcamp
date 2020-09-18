@@ -1,277 +1,556 @@
 {
 	"info": {
-		"_postman_id": "3d8b5619-75a2-40b0-a43b-a5367f7717a7",
+		"_postman_id": "40744d5a-8829-4785-9558-0cee4eb417ef",
 		"name": "Complete Web Developer Bootcamp API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get all books",
-			"event": [
+			"name": "Books",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "2fd3ae01-2a53-49b4-986d-395336abae66",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"pm.test(\"Get all book success\", function() {",
-							"    pm.response.to.have.status(200)",
-							"    pm.expect(jsonData.data.length).equal(399)",
-							"})"
+					"name": "Get all books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7f3fb321-dcff-4601-88c3-8d34e3a4e2f1",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Get all book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data.length).equal(399)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "complete-web-developer-bootcamp-2020",
+								"type": "text"
+							}
 						],
-						"type": "text/javascript"
-					}
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ed40a2d4-cd64-4468-bddd-830a76bf6ec0",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Create book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).to.have.property(\"book_id\")",
+									"    postman.setEnvironmentVariable(\"testBookId\", jsonData.data[\"book_id\"]);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Power BI\",\n    \"page_count\" : 400,\n    \"published_date\" : \"1999-06-01T07:00:00\",\n    \"thumbnail_url\" : \"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/bauer-cn.jpg\",\n    \"status\" : \"PUBLISH\",\n    \"authors\" : [ \n        \"Christian Bauer\", \n        \"Gavin King\"\n    ],\n    \"categories\" : [ \n        \"Java\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5be54cd2-2e91-4521-af51-d17a75def1a1",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Get specific book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data.length).equal(1)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/{{testBookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{testBookId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26c654f0-eeea-4426-be45-ce72cbd0e36e",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Update specific book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).have.property(\"book_id\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Deep Power BI\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/{{testBookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{testBookId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e50117f0-aef7-47e7-95de-9f70b2357387",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Delete specific book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).have.property(\"book_id\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/{{testBookId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								"{{testBookId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{api-key}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "api-key",
-						"value": "complete-web-developer-bootcamp-2020",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{baseUrl}}/books",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books"
-					]
-				}
-			},
-			"response": []
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Create book",
-			"event": [
+			"name": "Movies",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "12c5599b-690d-42a8-8992-79db508a0dda",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"pm.test(\"Create book success\", function() {",
-							"    pm.response.to.have.status(200)",
-							"    pm.expect(jsonData.data).to.have.property(\"book_id\")",
-							"    postman.setEnvironmentVariable(\"testBookId\", jsonData.data[\"book_id\"]);",
-							"})"
+					"name": "Get all movies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9f96aee-c779-4af6-8cb9-a2deacb9b4bd",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Get all movie success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-token",
+								"type": "text",
+								"value": "complete-web-developer-bootcamp-2020"
+							}
 						],
-						"type": "text/javascript"
-					}
+						"url": {
+							"raw": "{{baseUrl}}/movies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eac24f01-4231-438f-8ab7-d5f896a0082c",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Create movie success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).to.have.property(\"movie_id\")",
+									"    postman.setEnvironmentVariable(\"testMovieId\", jsonData.data[\"movie_id\"]);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tenet\",\n    \"genres\": [\"Action\", \"Sci-Fi\"],\n    \"poster\": \"https://m.media-amazon.com/images/M/MV5BYzg0NGM2NjAtNmIxOC00MDJmLTg5ZmYtYzM0MTE4NWE2NzlhXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_SY1000_CR0,0,666,1000_AL_.jpg\",\n    \"synopsis\": \"Armed with only one word, Tenet, and fighting for the survival of the entire world, a Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.\",\n    \"release_date\": \"27 August 2020\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/movies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc6c08a8-7344-45b0-a99b-de032f000e45",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Get specific book success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data.length).equal(1)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/movies/{{testMovieId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movies",
+								"{{testMovieId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47ba265b-0392-4c84-98e5-7c6b1d016cb6",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Update specific movie success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).have.property(\"movie_id\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Tenet 2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/movies/{{testMovieId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movies",
+								"{{testMovieId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete movie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1dde3980-964a-46f5-af24-6f5786fcd7c2",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"pm.test(\"Delete specific movie success\", function() {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(jsonData.data).have.property(\"movie_id\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api-key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/movies/{{testMovieId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"movies",
+								"{{testMovieId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{api-key}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\" : \"Power BI\",\n    \"page_count\" : 400,\n    \"published_date\" : \"1999-06-01T07:00:00\",\n    \"thumbnail_url\" : \"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/bauer-cn.jpg\",\n    \"status\" : \"PUBLISH\",\n    \"authors\" : [ \n        \"Christian Bauer\", \n        \"Gavin King\"\n    ],\n    \"categories\" : [ \n        \"Java\"\n    ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/books",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get specific book",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "56b46818-500b-4ebe-9387-cbbf358b56d7",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"pm.test(\"Get specific book success\", function() {",
-							"    pm.response.to.have.status(200)",
-							"    pm.expect(jsonData.data.length).equal(1)",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{api-key}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/books/{{testBookId}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books",
-						"{{testBookId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update book",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3e86e2e4-7012-402b-ac6a-8db2bd3beaa4",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"pm.test(\"Update specific book success\", function() {",
-							"    pm.response.to.have.status(200)",
-							"    pm.expect(jsonData.data).have.property(\"book_id\")",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{api-key}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\" : \"Deep Power BI\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/books/{{testBookId}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books",
-						"{{testBookId}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete book",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "a6790293-409f-4b52-a5b7-b5497ae56fb1",
-						"exec": [
-							"const jsonData = pm.response.json();",
-							"pm.test(\"Delete specific book success\", function() {",
-							"    pm.response.to.have.status(200)",
-							"    pm.expect(jsonData.data).have.property(\"book_id\")",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{api-key}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "api-key",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/books/{{testBookId}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books",
-						"{{testBookId}}"
-					]
-				}
-			},
-			"response": []
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
