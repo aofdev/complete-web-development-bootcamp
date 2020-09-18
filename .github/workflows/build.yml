@@ -34,6 +34,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
+          build-args: MONGO_URI=${{secrets.MONGO_URI}}
           tags: |
             aofdev/complete-web-development-bootcamp-api:latest
             aofdev/complete-web-development-bootcamp-api:${{ steps.tag.outputs.SHA7 }}

@@ -24,7 +24,7 @@ endif
 ## start: Start app
 start:
 	@ echo "> Start app"
-	@ uvicorn main:app --reload --app-dir api
+	@ uvicorn main:app --reload --app-dir app
 
 ## docker-start: Start docker-compose
 docker-start:
