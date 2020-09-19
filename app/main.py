@@ -1,14 +1,22 @@
 import os
 from fastapi import FastAPI, Header, HTTPException, Depends, Response
-from pymongo import MongoClient
+from fastapi.middleware.cors import CORSMiddleware
 
+from pymongo import MongoClient
 
 from entities.book import Book
 from repositories.book import BookRepository, NoBookError
 from routes.book import book_router
 
-
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Local
 MONGO_URI = "mongodb://cwdb101:!cwdb101!@localhost:27020"
