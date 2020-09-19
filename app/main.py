@@ -5,11 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
 from entities.book import Book
-from repositories.book import BookRepository, NoBookError
+from repositories.book import BookRepository
 from routes.book import book_router
 
 from entities.movie import Movie
-from repositories.movie import MovieRepository, NoMovieError
+from repositories.movie import MovieRepository
 from routes.movie import movie_router
 
 app = FastAPI()
