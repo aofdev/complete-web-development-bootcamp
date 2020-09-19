@@ -6,7 +6,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <link
-      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
       rel="stylesheet"
     />
     <link href="default.css" rel="stylesheet" type="text/css" media="all" />
@@ -46,23 +46,23 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function (event) {
-        const host = 'https://cwdb-api.herokuapp.com';
-        const token = 'complete-web-developer-bootcamp-2020';
+      document.addEventListener("DOMContentLoaded", function (event) {
+        const host = "https://cwdb-api.herokuapp.com";
+        const token = "complete-web-developer-bootcamp-2020";
 
         const toNode = (html) =>
-          new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+          new DOMParser().parseFromString(html, "text/html").body.childNodes[0];
 
         const saveBookToLocalStorage = (books) =>
-          localStorage.setItem('books', books);
-        const getBookFromLocalStorage = () => localStorage.getItem('books');
+          localStorage.setItem("books", books);
+        const getBookFromLocalStorage = () => localStorage.getItem("books");
         const getBookListFromApi = async (host, token) => {
           const requestUrl = `${host}/books`;
           const response = await fetch(requestUrl, {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
-              'api-key': token,
+              "Content-Type": "application/json",
+              "api-key": token,
             },
           });
 
@@ -71,12 +71,12 @@
         const getSearchKeywordFromUrl = () => {
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString);
-          return urlParams.get('q') || '';
+          return urlParams.get("q") || "";
         };
 
         const displayBooks = async (books, limit = 12) => {
           const roundRobin = (id) =>
-            id % 3 === 0 ? 'A' : id % 3 === 1 ? 'B' : 'C';
+            id % 3 === 0 ? "A" : id % 3 === 1 ? "B" : "C";
 
           let component = {
             A: [],
@@ -115,7 +115,7 @@
                             ? `${short_description.substring(0, 150)}...`
                             : short_description
                             ? short_description
-                            : '-- no description --'
+                            : "-- no description --"
                         }
                       </p>
                     </div>
@@ -127,13 +127,13 @@
 
           const node = toNode(`
       			<div>
-      				<div class="boxA">${component['A']}</div>
-      				<div class="boxB">${component['B']}</div>
-      				<div class="boxC">${component['C']}</div>
+      				<div class="boxA">${component["A"]}</div>
+      				<div class="boxB">${component["B"]}</div>
+      				<div class="boxC">${component["C"]}</div>
       			</div>
             	`);
 
-          document.getElementsByClassName('book-list')[0].appendChild(node);
+          document.getElementsByClassName("book-list")[0].appendChild(node);
         };
 
         const displayFoundBook = (async () => {
