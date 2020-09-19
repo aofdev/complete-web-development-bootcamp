@@ -1,0 +1,101 @@
+.home-page .title h2 {
+  text-align: center;
+}
+
+.home-page .title p {
+  text-indent: 50px;
+  font-size: 20px;
+}
+
+.home-page .add-new-book {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.home-page .box a {
+  width: 320px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+.home-page .box .details {
+  text-align: center;
+}
+
+.book-page h2 {
+  text-align: center;
+}
+
+.book-page .thumbnail {
+  margin-bottom: 30px;
+}
+
+.book-page p {
+  text-indent: 50px;
+  font-size: 20px;
+}
+
+.book-page .details {
+  margin-bottom: 30px;
+}
+
+.book-page .action {
+  text-align: center;
+}
+
+.create-page .title {
+  text-align: center;
+}
+
+.create-page .form label {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.create-page .form input {
+  border-radius: 0px;
+  border: 0px;
+}
+
+.create-page .form .button-group {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.create-page .form .btn-create {
+  display: inline-block;
+  padding: 1em 3em 1em 2em;
+  background: #4c4532;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 0.9em;
+  color: #fff;
+  border: 0px;
+  border-radius: 0px;
+}
+
+.create-page .form .btn-clear {
+  display: inline-block;
+  padding: 1em 3em 1em 2em;
+  background: rgba(0, 0, 0, 0);
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 0.9em;
+  color: #4c4532;
+  border: 0px;
+  border-radius: 0px;
+}
+
+.create-page .action {
+  text-align: left;
+}
+
+.create-page .action .button:hover {
+  color: #fff;
+}

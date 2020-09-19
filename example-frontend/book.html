@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Complete Web Developer Bootcamp 2020 | Bookstore</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link
+      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      rel="stylesheet"
+    />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="custom.css" rel="stylesheet" type="text/css" media="all" />
+  </head>
+  <body>
+    <div id="header" class="container">
+      <div id="logo">
+        <h1><a href="index.html">Bookstore</a></h1>
+      </div>
+    </div>
+    <div id="page" class="book-page">
+      <div class="container">
+        <div class="title"></div>
+        <div class="book"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function (event) {
+        const host = 'https://cwdb-api.herokuapp.com';
+        const token = 'complete-web-developer-bootcamp-2020';
+        const toNode = (html) =>
+          new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+
+        const getSpecificBookFromApi = async (bookId, host, token) => {
+          const requestUrl = `${host}/books/${bookId}`;
+          const response = await fetch(requestUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': token,
+            },
+          });
+
+          return response.json();
+        };
+        const displaySpecificBook = async (bookId) => {
+          const { data: book } = await getSpecificBookFromApi(
+            bookId,
+            host,
+            token
+          );
+
+          const { title, long_description, thumbnail_url } = book[0];
+          const nodeTitle = toNode(`<h2>${title}</h2>`);
+          const nodeDetail = toNode(`
+            <div>
+              <div class="thumbnail" style="text-align: center">
+                <img src="${thumbnail_url}" width="300" height="376" alt="" />
+              </div>
+              <div class="details">
+                <p>
+                  ${
+                    long_description ? long_description : '-- no description --'
+                  }
+                </p>
+              </div>
+              <div class="action">
+                <a href="index.html" class="button">Back to home</a>
+              </div>
+            </>
+          `);
+
+          document.getElementsByClassName('title')[0].appendChild(nodeTitle);
+          document.getElementsByClassName('book')[0].appendChild(nodeDetail);
+        };
+        const getBookIdFromUrl = () => {
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          return urlParams.get('id');
+        };
+
+        /* Start code */
+        (async () => {
+          const bookId = getBookIdFromUrl();
+          await displaySpecificBook(bookId);
+        })();
+      });
+    </script>
+  </body>
+</html>

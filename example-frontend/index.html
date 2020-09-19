@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Complete Web Developer Bootcamp 2020 | Bookstore</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link
+      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      rel="stylesheet"
+    />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="custom.css" rel="stylesheet" type="text/css" media="all" />
+  </head>
+  <body>
+    <div id="header" class="container">
+      <div id="logo">
+        <h1><a href="/index.html">Bookstore</a></h1>
+      </div>
+    </div>
+    <div id="page" class="home-page">
+      <div class="container">
+        <div class="title">
+          <h2>Welcome to our bookstore</h2>
+          <p>
+            Bookstore homepage helps you explore Earth's Biggest Bookstore
+            without ever leaving the comfort of your couch. Here you'll find
+            current best sellers in books, new releases in books, deals in
+            books, Kindle eBooks, Audible audiobooks, and so much more. We have
+            popular genres like Literature & Fiction, Children's Books, Mystery
+            & Thrillers, Cooking, Comics & Graphic Novels, Romance, Science
+            Fiction & Fantasy, and Special programs such as Best Books of the
+            Month, the book Review, and Book Charts to help you discover your
+            next great read. In addition, you'll find great book recommendations
+            that may be of interest to you based on your search, as well as the
+            most wished for and most gifted books. We hope you enjoy the
+            homepage!
+          </p>
+        </div>
+        <div class="add-new-book">
+          <a href="create.html" class="button">+ Create New Book</a>
+        </div>
+        <div class="book-list"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function (event) {
+        const host = 'https://cwdb-api.herokuapp.com';
+        const token = 'complete-web-developer-bootcamp-2020';
+
+        const toNode = (html) =>
+          new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+
+        const saveBookToLocalStorage = (books) =>
+          localStorage.setItem('books', books);
+        const getBookFromLocalStorage = () => localStorage.getItem('books');
+        const getBookListFromApi = async (host, token) => {
+          const requestUrl = `${host}/books`;
+          const response = await fetch(requestUrl, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': token,
+            },
+          });
+
+          return response.json();
+        };
+        const getSearchKeywordFromUrl = () => {
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          return urlParams.get('q') || '';
+        };
+
+        const displayBooks = async (books, limit = 12) => {
+          const roundRobin = (id) =>
+            id % 3 === 0 ? 'A' : id % 3 === 1 ? 'B' : 'C';
+
+          let component = {
+            A: [],
+            B: [],
+            C: [],
+          };
+
+          const bookComponent = books
+            .filter((_, idx) => idx < limit)
+            .map(
+              (
+                {
+                  id,
+                  thumbnail_url,
+                  title,
+                  isbn,
+                  published_date,
+                  short_description,
+                  authors,
+                  categories,
+                },
+                idx
+              ) => {
+                component[roundRobin(idx)].push(`
+                  <div class="box" style="margin-bottom: 10px">
+                    <div class="thumbnail" style="text-align: center">
+                      <img src="${thumbnail_url}" width="300" height="376" alt="" />
+                    </div>
+                    <div class="title" style="text-align: center; padding-top: 10px; margin: 0px">
+                      <h3>${title}</h3>
+                    </div>
+                    <div class="details">
+                      <p>
+                        ${
+                          short_description && short_description.length > 150
+                            ? `${short_description.substring(0, 150)}...`
+                            : short_description
+                            ? short_description
+                            : '-- no description --'
+                        }
+                      </p>
+                    </div>
+                    <a href="book.html?id=${id}" class="button">More Details</a>
+                  </div>
+                `);
+              }
+            );
+
+          const node = toNode(`
+      			<div>
+      				<div class="boxA">${component['A']}</div>
+      				<div class="boxB">${component['B']}</div>
+      				<div class="boxC">${component['C']}</div>
+      			</div>
+            	`);
+
+          document.getElementsByClassName('book-list')[0].appendChild(node);
+        };
+
+        const displayFoundBook = (async () => {
+          const found = getBookFromLocalStorage();
+          const limitBook = 12;
+          const keyword = getSearchKeywordFromUrl();
+
+          let books = [];
+          let filteredBook = [];
+
+          if (found) {
+            data = getBookFromLocalStorage();
+            books = JSON.parse(data);
+          } else {
+            const { data } = await getBookListFromApi(host, token);
+            books = data;
+            saveBookToLocalStorage(JSON.stringify(books));
+          }
+
+          if (keyword && keyword.trim().length > 0) {
+            filteredBook = books.filter((book) =>
+              book.title
+                .toLocaleLowerCase()
+                .includes(keyword.toLocaleLowerCase())
+            );
+          } else {
+            filteredBook = books;
+          }
+
+          await displayBooks(filteredBook, limitBook);
+        })();
+      });
+    </script>
+  </body>
+</html>

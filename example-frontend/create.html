@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Complete Web Developer Bootcamp 2020 | Bookstore</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link
+      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="custom.css" rel="stylesheet" type="text/css" media="all" />
+  </head>
+  <body>
+    <div id="header" class="container">
+      <div id="logo">
+        <h1><a href="index.html">Bookstore</a></h1>
+      </div>
+    </div>
+    <div id="page" class="create-page">
+      <div class="container">
+        <div class="title"><h2>Create a new book</h2></div>
+        <div class="form">
+          <form>
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                value="Unlocking Android 2"
+              />
+            </div>
+            <div class="form-group">
+              <label for="image_thumbnail_url">Image Url:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="image_url"
+                value="https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/ableson.jpg"
+              />
+            </div>
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <textarea
+                type="text"
+                class="form-control"
+                row="3"
+                id="description"
+              >
+Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout.
+            </textarea
+              >
+            </div>
+            <div class="button-group">
+              <button type="button" class="btn btn-primary btn-create">
+                Create
+              </button>
+              &nbsp; &nbsp;
+              <button type="button" class="btn btn-default btn-clear">
+                Clear
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="action">
+          <a href="index.html" class="button">Back to home</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementsByClassName('btn-create')[0]
+        .addEventListener('click', () => {
+          const host = 'https://cwdb-api.herokuapp.com';
+          const token = 'complete-web-developer-bootcamp-2020';
+          const toNode = (html) =>
+            new DOMParser().parseFromString(html, 'text/html').body
+              .childNodes[0];
+
+          const clearDataFromStorage = () => localStorage.clear();
+          const createBookFromApi = async (bookData, host, token) => {
+            const requestUrl = `${host}/books`;
+            const response = await fetch(requestUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'api-key': token,
+              },
+              body: JSON.stringify(bookData),
+            });
+
+            return response.json();
+          };
+          const createNewBook = async (book) => {
+            const {
+              data: { book_id: bookId },
+            } = await createBookFromApi(book, host, token);
+
+            clearDataFromStorage();
+
+            if (bookId) {
+              window.location.replace(`book.html?id=${bookId}`);
+            }
+          };
+
+          (async () => {
+            const title = document.getElementById('title').value;
+            const thumbnailUrl = document.getElementById('image_url').value;
+            const shortDescription = document
+              .getElementById('description')
+              .value.substring(0, 150);
+            const longDescription = document.getElementById('description')
+              .value;
+
+            const book = {
+              title,
+              thumbnail_url: thumbnailUrl,
+              short_description: shortDescription,
+              long_description: longDescription,
+            };
+
+            await createNewBook(book);
+          })();
+        });
+
+      document
+        .getElementsByClassName('btn-clear')[0]
+        .addEventListener('click', () => {
+          document.getElementById('title').value = '';
+          document.getElementById('image_url').value = '';
+          document.getElementById('description').value = '';
+        });
+    </script>
+  </body>
+</html>
