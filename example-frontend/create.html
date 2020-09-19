@@ -6,7 +6,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <link
-      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
       rel="stylesheet"
     />
     <link
@@ -79,22 +79,22 @@ Unlocking Android: A Developer's Guide provides concise, hands-on instruction fo
 
     <script>
       document
-        .getElementsByClassName('btn-create')[0]
-        .addEventListener('click', () => {
-          const host = 'https://cwdb-api.herokuapp.com';
-          const token = 'complete-web-developer-bootcamp-2020';
+        .getElementsByClassName("btn-create")[0]
+        .addEventListener("click", () => {
+          const host = "https://cwdb-api.herokuapp.com";
+          const token = "complete-web-developer-bootcamp-2020";
           const toNode = (html) =>
-            new DOMParser().parseFromString(html, 'text/html').body
+            new DOMParser().parseFromString(html, "text/html").body
               .childNodes[0];
 
           const clearDataFromStorage = () => localStorage.clear();
           const createBookFromApi = async (bookData, host, token) => {
             const requestUrl = `${host}/books`;
             const response = await fetch(requestUrl, {
-              method: 'POST',
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
-                'api-key': token,
+                "Content-Type": "application/json",
+                "api-key": token,
               },
               body: JSON.stringify(bookData),
             });
@@ -114,12 +114,12 @@ Unlocking Android: A Developer's Guide provides concise, hands-on instruction fo
           };
 
           (async () => {
-            const title = document.getElementById('title').value;
-            const thumbnailUrl = document.getElementById('image_url').value;
+            const title = document.getElementById("title").value;
+            const thumbnailUrl = document.getElementById("image_url").value;
             const shortDescription = document
-              .getElementById('description')
+              .getElementById("description")
               .value.substring(0, 150);
-            const longDescription = document.getElementById('description')
+            const longDescription = document.getElementById("description")
               .value;
 
             const book = {
@@ -134,11 +134,11 @@ Unlocking Android: A Developer's Guide provides concise, hands-on instruction fo
         });
 
       document
-        .getElementsByClassName('btn-clear')[0]
-        .addEventListener('click', () => {
-          document.getElementById('title').value = '';
-          document.getElementById('image_url').value = '';
-          document.getElementById('description').value = '';
+        .getElementsByClassName("btn-clear")[0]
+        .addEventListener("click", () => {
+          document.getElementById("title").value = "";
+          document.getElementById("image_url").value = "";
+          document.getElementById("description").value = "";
         });
     </script>
   </body>

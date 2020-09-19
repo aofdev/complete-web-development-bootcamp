@@ -6,7 +6,7 @@
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <link
-      href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900"
       rel="stylesheet"
     />
     <link href="default.css" rel="stylesheet" type="text/css" media="all" />
@@ -27,19 +27,19 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function (event) {
-        const host = 'https://cwdb-api.herokuapp.com';
-        const token = 'complete-web-developer-bootcamp-2020';
+      document.addEventListener("DOMContentLoaded", function (event) {
+        const host = "https://cwdb-api.herokuapp.com";
+        const token = "complete-web-developer-bootcamp-2020";
         const toNode = (html) =>
-          new DOMParser().parseFromString(html, 'text/html').body.childNodes[0];
+          new DOMParser().parseFromString(html, "text/html").body.childNodes[0];
 
         const getSpecificBookFromApi = async (bookId, host, token) => {
           const requestUrl = `${host}/books/${bookId}`;
           const response = await fetch(requestUrl, {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
-              'api-key': token,
+              "Content-Type": "application/json",
+              "api-key": token,
             },
           });
 
@@ -62,7 +62,7 @@
               <div class="details">
                 <p>
                   ${
-                    long_description ? long_description : '-- no description --'
+                    long_description ? long_description : "-- no description --"
                   }
                 </p>
               </div>
@@ -72,13 +72,13 @@
             </>
           `);
 
-          document.getElementsByClassName('title')[0].appendChild(nodeTitle);
-          document.getElementsByClassName('book')[0].appendChild(nodeDetail);
+          document.getElementsByClassName("title")[0].appendChild(nodeTitle);
+          document.getElementsByClassName("book")[0].appendChild(nodeDetail);
         };
         const getBookIdFromUrl = () => {
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString);
-          return urlParams.get('id');
+          return urlParams.get("id");
         };
 
         /* Start code */
