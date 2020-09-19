@@ -1,5 +1,25 @@
 version: "3.5"
 services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        MONGO_URI: "mongodb://cwdb101:!cwdb101!@complete-web-development-bootcamp-mongo:27017/bootcamp?authSource=admin&authMechanism=SCRAM-SHA-1"
+    volumes:
+      - ./app:/home/complete-web-development-bootcamp-api
+    ports:
+      - 8000:8000
+    networks:
+      - complete-web-development-bootcamp
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "10"
+    depends_on:
+      - mongo
+
   mongo:
     container_name: complete-web-development-bootcamp-mongo
     image: mongo:4.2
