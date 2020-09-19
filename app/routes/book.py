@@ -13,7 +13,7 @@ def book_router(repo: BookRepository):
     return router
 
 
-@router.get("/")
+@router.get("")
 def read_books():
     books = book_repo.find_all()
 
@@ -43,7 +43,7 @@ def read_book(book_id: str, response: Response):
         }
 
 
-@router.post("/")
+@router.post("")
 def create_book(book: Book, response: Response):
     try:
         created_book_id = book_repo.create(book)
