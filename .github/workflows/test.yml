@@ -18,7 +18,7 @@ jobs:
 
       - name: Restore data
         run: |
-          docker cp ./seed complete-web-development-bootcamp-mongo:/tmp/
+          docker cp ./seed/books.json complete-web-development-bootcamp-mongo:/tmp/books.json
           docker exec complete-web-development-bootcamp-mongo mongoimport --uri "mongodb://cwdb101:!cwdb101!@complete-web-development-bootcamp-mongo:27017/bootcamp?authSource=admin&authMechanism=SCRAM-SHA-1" -c books --drop --file /tmp/books.json
 
       - name: Integration test
