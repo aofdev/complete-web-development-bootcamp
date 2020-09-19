@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  integration_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start app
+        run: docker-compose up -d
+
+      - name: Restore data
+        run: |
+          docker cp ./seed complete-web-development-bootcamp-mongo:/tmp/
+          docker exec complete-web-development-bootcamp-mongo mongoimport --uri "mongodb://cwdb101:!cwdb101!@complete-web-development-bootcamp-mongo:27017/bootcamp?authSource=admin&authMechanism=SCRAM-SHA-1" -c books --drop --file /tmp/books.json
+
+      - name: Integration test
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
+        with:
+          collection: postman/Bootcamp-Local.postman_environment.json
+          environment: postman/Complete-Web-Developer-Bootcamp-API.postman_collection.json
+          reporters: cli
