@@ -25,6 +25,6 @@ jobs:
         id: run-newman
         uses: anthonyvscode/newman-action@v1
         with:
-          collection: postman/Bootcamp-Local.postman_environment.json
-          environment: postman/Complete-Web-Developer-Bootcamp-API.postman_collection.json
+          collection: postman/Complete-Web-Developer-Bootcamp-API.postman_collection.json
+          environment: postman/Bootcamp-Local.postman_environment.json
           reporters: cli
