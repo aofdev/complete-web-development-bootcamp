@@ -11,11 +11,7 @@ class AsyncBookRepository:
         self.collection: AsyncIOMotorCollection = collection
 
     async def find_all(self) -> List[Book]:
-        books = []
-        async for book_raw in self.collection.find():
-            book = self.map_raw_to_book(book_raw)
-            books.append(book)
-        return books
+        return [self.map_raw_to_book(book_raw) async for book_raw in self.collection.find()]
 
     async def find_by_id(self, id: str) -> Book:
         book_raw = await self.collection.find_one({"_id": ObjectId(id)})
