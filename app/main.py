@@ -64,12 +64,12 @@ app.include_router(
     dependencies=[Depends(get_token_header)]
 )
 
-# app.include_router(
-#     movie_router(movie_repo),
-#     prefix="/movies",
-#     tags=["movies"],
-#     dependencies=[Depends(get_token_header)]
-# )
+app.include_router(
+    movie_router(movie_repo),
+    prefix="/movies",
+    tags=["movies"],
+    dependencies=[Depends(get_token_header)]
+)
 
 
 app.include_router(
