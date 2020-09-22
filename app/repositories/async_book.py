@@ -42,18 +42,21 @@ class AsyncBookRepository:
 
     def map_raw_to_book(self, book_raw: Dict):
         return Book(**{
-            "id": str(book_raw["_id"]) if "_id" in book_raw else None,
-            "title": book_raw["title"] if "title" in book_raw else None,
-            "isbn": book_raw["isbn"] if "isbn" in book_raw else None,
-            "page_count": book_raw["page_count"] if "page_count" in book_raw else None,
-            "published_date": book_raw["published_date"] if "published_date" in book_raw else None,
-            "thumbnail_url": book_raw["thumbnail_url"] if "thumbnail_url" in book_raw else None,
-            "short_description": book_raw["short_description"] if "short_description" in book_raw else None,
-            "long_description": book_raw["long_description"] if "long_description" in book_raw else None,
-            "status": book_raw["status"] if "status" in book_raw else None,
-            "authors": book_raw["authors"] if "authors" in book_raw else None,
-            "categories": book_raw["categories"] if "categories" in book_raw else None
+            "id": str(self.is_key_in_dict(key="_id", book_raw=book_raw)),
+            "title": self.is_key_in_dict(key="title", book_raw=book_raw),
+            "isbn": self.is_key_in_dict(key="isbn", book_raw=book_raw),
+            "page_count": self.is_key_in_dict(key="page_count", book_raw=book_raw),
+            "published_date": self.is_key_in_dict(key="published_date", book_raw=book_raw),
+            "thumbnail_url": self.is_key_in_dict(key="thumbnail_url", book_raw=book_raw),
+            "short_description": self.is_key_in_dict(key="short_description", book_raw=book_raw),
+            "long_description": self.is_key_in_dict(key="long_description", book_raw=book_raw),
+            "status": self.is_key_in_dict(key="status", book_raw=book_raw),
+            "authors": self.is_key_in_dict(key="authors", book_raw=book_raw),
+            "categories": self.is_key_in_dict(key="categories", book_raw=book_raw),
         })
+
+    def is_key_in_dict(self, key: str, book_raw: Dict):
+        return book_raw[key] if key in book_raw else None
 
 
 class NoBookError(Exception):
