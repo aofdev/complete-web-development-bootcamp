@@ -13,13 +13,26 @@
 Run this command everytime `before` start to develop this repo
 
 ```sh
-make setup
+pyenv local 3.8.5
 ```
 
 ## Run App
 
 ```sh
-make start
+make docker-start
+```
+
+
+## Seed data to database
+
+```sh
+make mockdata
+```
+
+## Stop app and database
+
+```sh
+make docker-stop
 ```
 
 ## Manual
