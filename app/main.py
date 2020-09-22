@@ -58,7 +58,7 @@ async def get_token_header(api_key: str = Header(...)):
 
 
 app.include_router(
-    book_router(book_repo),
+    book_router(async_book_repo),
     prefix="/books",
     tags=["books"],
     dependencies=[Depends(get_token_header)]
@@ -70,7 +70,6 @@ app.include_router(
     tags=["movies"],
     dependencies=[Depends(get_token_header)]
 )
-
 
 app.include_router(
     async_book_router(async_book_repo),
