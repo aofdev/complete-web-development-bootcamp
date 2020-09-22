@@ -36,7 +36,6 @@ if 'PRODUCTION' in os.environ:
     MONGO_URI = os.environ['PRODUCTION']
 
 client = MongoClient(MONGO_URI)
-book_repo = BookRepository(collection=client["bootcamp"]["books"])
 movie_repo = MovieRepository(collection=client["bootcamp"]["movies"])
 
 
