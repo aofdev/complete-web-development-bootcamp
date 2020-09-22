@@ -13,7 +13,6 @@ from repositories.movie import MovieRepository
 from routes.movie import movie_router
 
 from repositories.async_book import AsyncBookRepository
-from routes.async_book import async_book_router
 
 
 import motor.motor_asyncio
@@ -68,12 +67,5 @@ app.include_router(
     movie_router(movie_repo),
     prefix="/movies",
     tags=["movies"],
-    dependencies=[Depends(get_token_header)]
-)
-
-app.include_router(
-    async_book_router(async_book_repo),
-    prefix="/async_books",
-    tags=["async_books"],
     dependencies=[Depends(get_token_header)]
 )
