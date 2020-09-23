@@ -12,6 +12,11 @@ from entities.movie import Movie
 from repositories.movie import MovieRepository
 from routes.movie import movie_router
 
+from repositories.async_book import AsyncBookRepository
+
+
+import motor.motor_asyncio
+
 app = FastAPI()
 
 app.add_middleware(
@@ -31,8 +36,12 @@ if 'PRODUCTION' in os.environ:
     MONGO_URI = os.environ['PRODUCTION']
 
 client = MongoClient(MONGO_URI)
-book_repo = BookRepository(collection=client["bootcamp"]["books"])
 movie_repo = MovieRepository(collection=client["bootcamp"]["movies"])
+
+
+async_client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
+async_book_repo = AsyncBookRepository(
+    collection=async_client["bootcamp"]["books"])
 
 
 @app.get("/")
@@ -40,14 +49,14 @@ def read_root():
     return {"message": "Welcome to Complete Web Developer Bootcamp 2020"}
 
 
-def get_token_header(api_key: str = Header(...)):
+async def get_token_header(api_key: str = Header(...)):
     if api_key != "complete-web-developer-bootcamp-2020":
         raise HTTPException(
             status_code=400, detail="api-key header invalid")
 
 
 app.include_router(
-    book_router(book_repo),
+    book_router(async_book_repo),
     prefix="/books",
     tags=["books"],
     dependencies=[Depends(get_token_header)]
