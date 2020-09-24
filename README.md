@@ -13,7 +13,7 @@
 Run this command everytime `before` start to develop this repo
 
 ```sh
-pyenv local 3.8.5
+make setup
 ```
 
 ## Run App
