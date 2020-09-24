@@ -1,6 +1,6 @@
 .PHONY: clean-pyc help lint init setup docker-start docker-stop
 .DEFAULT_GOAL := help
-
+ENV_DIR := ~/.pyenv/versions/complete-web-development-bootcamp
 PROJECTNAME := $(shell basename "$(PWD)")
 
 ## setup: Initialize project
@@ -8,18 +8,18 @@ setup: init docker-start
 
 ## init: install the package to the active Python's site-packages
 init:
-ifeq ($(wildcard ~/.pyenv/versions/complete-web-development-bootcamp),)
+ifeq ($(wildcard $(ENV_DIR)),)
 	@echo "Initialize pyenv virtual environment"
-	pyenv virtualenv 3.8.5 complete-web-development-bootcamp
+	pyenv virtualenv 3.8.5 complete-web-development-bootcamp || pyenv install 3.8.5 && pyenv virtualenv 3.8.5 complete-web-development-bootcamp
 endif
 	@echo "Install python requirements"
-	~/.pyenv/versions/complete-web-development-bootcamp/bin/pip install -r app/requirements.txt
+	$(ENV_DIR)/bin/pip install -r app/requirements.txt
 
 	@echo "Cleaning cache python file artifacts"
 	@make clean-pyc
 
-	@echo "\nCopy-paste the following line to activate the env"
-	@echo "pyenv activate complete-web-development-bootcamp"
+	@echo "\nActivate the env"
+	source $(ENV_DIR)/bin/activate && (exec zsh || exec bash)
 
 ## start: Start app
 start:
