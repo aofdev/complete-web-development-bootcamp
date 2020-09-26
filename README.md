@@ -1,6 +1,9 @@
 # Complete Web Development Bootcamp 🔥
 
 ![complete-web-development-bootcamp](./cwdb.svg)
+![Website](https://img.shields.io/website?label=website&url=https%3A%2F%2Fcwdb101.web.app%2F)
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=cwdb-api&style=flat)
+![Docker Image Version](https://img.shields.io/docker/v/aofdev/complete-web-development-bootcamp-api/latest?label=docker%20image&logo=docker)
 
 ## Prerequisite
 
@@ -21,7 +24,6 @@ make setup
 ```sh
 make docker-start
 ```
-
 
 ## Seed data to database
 
