@@ -51,7 +51,7 @@ clean-pyc:
 
 ## lint: check style with flake8
 lint:
-	@ flake8 api
+	@ flake8 app
 
 help: Makefile
 	@echo
