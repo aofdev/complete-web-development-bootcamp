@@ -1,21 +1,21 @@
 
 from fastapi import APIRouter, Response, status
-from repositories.book import BookRepository, NoBookError, NoBookUpdateError, NoBookDeleteError
+from repositories.async_book import AsyncBookRepository, NoBookError, NoBookUpdateError, NoBookDeleteError
 from entities.book import Book
 
 router = APIRouter()
-book_repo = BookRepository(None)
+book_repo = AsyncBookRepository(None)
 
 
-def book_router(repo: BookRepository):
+def book_router(repo: AsyncBookRepository):
     global book_repo
     book_repo = repo
     return router
 
 
 @router.get("")
-def read_books():
-    books = book_repo.find_all()
+async def read_books():
+    books = await book_repo.find_all()
 
     return {
         "message": "ok",
@@ -24,9 +24,9 @@ def read_books():
 
 
 @router.get("/{book_id}")
-def read_book(book_id: str, response: Response):
+async def read_book(book_id: str, response: Response):
     try:
-        book = book_repo.find_by_id(book_id)
+        book = await book_repo.find_by_id(book_id)
         return {
             "message": "ok",
             "data": [book]
@@ -44,9 +44,9 @@ def read_book(book_id: str, response: Response):
 
 
 @router.post("")
-def create_book(book: Book, response: Response):
+async def create_book(book: Book, response: Response):
     try:
-        created_book_id = book_repo.create(book)
+        created_book_id = await book_repo.create(book)
         return {
             "message": "ok",
             "data": {
@@ -61,9 +61,9 @@ def create_book(book: Book, response: Response):
 
 
 @router.put("/{book_id}")
-def update_book(book_id: str, book: Book, response: Response):
+async def update_book(book_id: str, book: Book, response: Response):
     try:
-        updated_book_id = book_repo.update(book_id, book)
+        updated_book_id = await book_repo.update(book_id, book)
         return {
             "message": "ok",
             "data": {
@@ -83,9 +83,9 @@ def update_book(book_id: str, book: Book, response: Response):
 
 
 @router.delete("/{book_id}")
-def delete_book(book_id: str, response: Response):
+async def delete_book(book_id: str, response: Response):
     try:
-        deleted_book_id = book_repo.delete(book_id)
+        deleted_book_id = await book_repo.delete(book_id)
         return {
             "message": "ok",
             "data": {

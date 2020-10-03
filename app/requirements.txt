@@ -23,6 +23,7 @@ Jinja2==2.11.2
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 mccabe==0.6.1
+motor==2.2.0
 openapi-spec-validator==0.2.9
 pathspec==0.8.0
 prance==0.19.0
