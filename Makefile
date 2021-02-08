@@ -10,7 +10,7 @@ setup: init docker-start
 init:
 ifeq ($(wildcard $(ENV_DIR)),)
 	@echo "Initialize pyenv virtual environment"
-	pyenv virtualenv 3.8.5 complete-web-development-bootcamp || pyenv install 3.8.5 && pyenv virtualenv 3.8.5 complete-web-development-bootcamp
+	pyenv activate 3.8.5 complete-web-development-bootcamp || pyenv install 3.8.5 && pyenv virtualenv 3.8.5 complete-web-development-bootcamp
 endif
 	@echo "Install python requirements"
 	$(ENV_DIR)/bin/pip install -r app/requirements.txt
