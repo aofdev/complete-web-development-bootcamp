@@ -27,13 +27,13 @@ motor==2.2.0
 openapi-spec-validator==0.2.9
 pathspec==0.8.0
 prance==0.20.2
-pycodestyle==2.6.0
+pycodestyle==2.7.0
 pydantic==1.6.1
 pyflakes==2.2.0
 pymongo==3.11.0
 pyrsistent==0.17.3
 PySnooper==0.4.2
-PyYAML==5.3.1
+PyYAML==5.4
 regex==2020.7.14
 requests==2.24.0
 semver==2.10.2
