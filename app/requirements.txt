@@ -1,5 +1,5 @@
 appdirs==1.4.4
-argcomplete==1.12.0
+argcomplete==1.12.3
 attrs==20.2.0
 autopep8==1.5.4
 black==19.10b0
