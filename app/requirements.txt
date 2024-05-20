@@ -35,7 +35,7 @@ pyrsistent==0.17.3
 PySnooper==0.4.2
 PyYAML==5.4.1
 regex==2020.7.14
-requests==2.24.0
+requests==2.32.0
 semver==2.10.2
 six==1.15.0
 starlette==0.13.6
